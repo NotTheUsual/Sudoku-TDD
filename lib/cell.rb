@@ -16,5 +16,7 @@ class Cell
 	end
 
 	def solve
+		return if solved?
+		@value = candidates[0] if candidates.length == 1
 	end
 end

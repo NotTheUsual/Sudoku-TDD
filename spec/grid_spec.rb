@@ -54,4 +54,44 @@ describe Grid do
 			expect(grid.cells[0].neighbours).to eq([1,2,3,4,5,7,8,9])
 		end
 	end
+
+	context "(trying to solve the damned thing)" do
+		it "should be able to solve a really easy sudoku" do
+			really_easy_puzzle = '615493872348127956279568431496832517521746389783915264952681743864379125137254690'
+			really_easy_grid = Grid.new(really_easy_puzzle)
+			really_easy_grid.solve
+			expect(really_easy_grid).to be_solved
+		end
+
+		it "should be able to solve an easy sudoku" do
+			puzzle = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
+			grid = Grid.new(puzzle)
+			expect(grid).not_to be_solved
+			grid.solve
+			expect(grid).to be_solved
+		end
+	end
+
+	context "(printing)" do
+		let(:puzzle) { '015003002000100906270068430490002017501040380003905000900081040860070025037204600' }
+		let(:grid)   { Grid.new(puzzle) }
+
+		it "should be able to print itself out without objects" do
+			expect(grid.inspect).not_to include("Cell")
+		end
+
+		it "should be able to print an incomplete sudoku" do
+			expect(grid.inspect).to eq([0, 1, 5, 0, 0, 3, 0, 0, 2, 0, 0, 0, 1, 0, 0, 9, 0, 6, 2, 7, 0, 0, 6, 8, 4, 3, 0, 4, 9, 0, 0, 0, 2, 0, 1, 7, 5, 0, 1, 0, 4, 0, 3, 8, 0, 0, 0, 3, 9, 0, 5, 0, 0, 0, 9, 0, 0, 0, 8, 1, 0, 4, 0, 8, 6, 0, 0, 7, 0, 0, 2, 5, 0, 3, 7, 2, 0, 4, 6, 0, 0])
+		end
+
+		it "should be able to print a complete sudoku" do
+			grid.solve
+			expect(grid.inspect).to eq([6, 1, 5, 4, 9, 3, 8, 7, 2, 3, 4, 8, 1, 2, 7, 9, 5, 6, 2, 7, 9, 5, 6, 8, 4, 3, 1, 4, 9, 6, 8, 3, 2, 5, 1, 7, 5, 2, 1, 7, 4, 6, 3, 8, 9, 7, 8, 3, 9, 1, 5, 2, 6, 4, 9, 5, 2, 6, 8, 1, 7, 4, 3, 8, 6, 4, 3, 7, 9, 1, 2, 5, 1, 3, 7, 2, 5, 4, 6, 9, 8])
+		end
+
+		it "should be able to print itself out as a string" do
+			grid.solve
+			expect(grid.to_s).to eq('615493872348127956279568431496832517521746389783915264952681743864379125137254698')
+		end
+	end
 end

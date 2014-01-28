@@ -37,4 +37,27 @@ class Grid
 		values = row_of(cell) + column_of(cell) + square_of(cell) - [0]
 		values.uniq!.sort!
 	end
+
+	def solve
+		outstanding_before, endless_looping = 81, false
+		while !solved? && !endless_looping
+			@cells.each do |c|
+				c.neighbours = neighbours_of(c)
+				c.solve
+			end
+			outstanding = @cells.count { |c| c.solved? }
+			endless_looping = outstanding_before == outstanding
+			outstanding_before = outstanding
+		end
+	end
+
+	def inspect
+		@cells.map do |cell|
+			cell.value
+		end
+	end
+
+	def to_s
+		self.inspect.join
+	end
 end

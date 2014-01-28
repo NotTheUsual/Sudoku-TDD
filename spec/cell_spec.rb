@@ -48,5 +48,11 @@ describe Cell do
 			empty_cell.solve
 			expect(empty_cell.value).to eq(9)
 		end
+
+		it "should do nothing if there's more than one candidate value" do
+			empty_cell.neighbours = [1,2,3,4,5,6,7]
+			expect(empty_cell.solve).to eq(nil)
+			expect(empty_cell.value).to eq(0)
+		end
 	end
 end
