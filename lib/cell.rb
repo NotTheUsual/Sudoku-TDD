@@ -19,4 +19,8 @@ class Cell
 		return if solved?
 		@value = candidates[0] if candidates.length == 1
 	end
+
+	def guess_value
+		@value = candidates.first
+	end
 end

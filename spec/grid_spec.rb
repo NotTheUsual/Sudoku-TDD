@@ -72,6 +72,16 @@ describe Grid do
 		end
 	end
 
+	context "(with really hard sudoku)" do
+		it "should be able to solve a sudoku with one guess" do
+			one_guess_puzzle = '034567890568129347790348056315274689426893715879651423640935078983712564057486930'
+			grid = Grid.new(one_guess_puzzle)
+			expect(grid).not_to be_solved
+			grid.solve
+			expect(grid).to be_solved
+		end
+	end
+
 	context "(printing)" do
 		let(:puzzle) { '015003002000100906270068430490002017501040380003905000900081040860070025037204600' }
 		let(:grid)   { Grid.new(puzzle) }

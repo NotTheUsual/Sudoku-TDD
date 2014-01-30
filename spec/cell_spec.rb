@@ -55,4 +55,14 @@ describe Cell do
 			expect(empty_cell.value).to eq(0)
 		end
 	end
+
+	context "(when solving a hard sudoku)" do
+		it "should be able to make a guess" do
+			empty_cell = Cell.new(0)
+			empty_cell.neighbours = [3,4,5,6,7,8,9]
+			expect(empty_cell.value).to eq(0)
+			empty_cell.guess_value
+			expect(empty_cell.value).to eq(1)
+		end
+	end
 end

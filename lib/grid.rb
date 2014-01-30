@@ -53,6 +53,8 @@ class Grid
 			endless_looping = outstanding_before == outstanding
 			outstanding_before = outstanding
 		end
+
+		fail_better if !solved?
 	end
 
 	def try_to_solve_cells
@@ -61,7 +63,13 @@ class Grid
 			cell.solve
 		end
 	end
-	
+
+	def fail_better
+		test_cell = @cells.find { |cell| !cell.solved? }
+		test_cell.guess_value
+		solve
+	end
+
 
 	def inspect
 		@cells.map do |cell|
