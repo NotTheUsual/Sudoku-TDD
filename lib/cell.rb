@@ -17,10 +17,19 @@ class Cell
 
 	def solve
 		return if solved?
+		raise unless solvable?
 		@value = candidates[0] if candidates.length == 1
 	end
 
-	def guess_value
-		@value = candidates.first
+	def guess_value(value)
+		@value = value
+	end
+
+	def valid?
+		!@neighbours.include?(value)
+	end
+
+	def solvable?
+		@neighbours != (1..9).to_a
 	end
 end

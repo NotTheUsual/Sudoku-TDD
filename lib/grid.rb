@@ -10,8 +10,16 @@ class Grid
 		@cells.each { |cell| cell.neighbours = neighbours_of(cell) }
 	end
 
+	def steal_solution(other_grid)
+		cells.replace(other_grid.cells)
+	end
+
 	def solved?
 		@cells.all? { |cell| cell.solved? }
+	end
+
+	def valid?
+		@cells.all? { |cell| cell.valid? }
 	end
 
 
@@ -40,8 +48,12 @@ class Grid
 	end
 
 	def neighbours_of cell
-		values = row_of(cell) + column_of(cell) + square_of(cell) - [0]
-		values.uniq.sort
+		neighbours = row_of(cell) + column_of(cell) + square_of(cell) - [0]
+		neighbours.uniq.sort
+	end
+
+	def set_neighbours_of cell
+		cell.neighbours = neighbours_of(cell)
 	end
 
 
@@ -59,15 +71,27 @@ class Grid
 
 	def try_to_solve_cells
 		@cells.each do |cell|
-			cell.neighbours = neighbours_of(cell)
+			set_neighbours_of cell
 			cell.solve
 		end
 	end
 
 	def fail_better
-		test_cell = @cells.find { |cell| !cell.solved? }
-		test_cell.guess_value
-		solve
+		# test_cell = @cells.find { |cell| !cell.solved? }
+		test_cell = @cells.sort_by { |cell| cell.candidates.length }.find { |cell| !cell.solved? }
+		# test_cell = @cells.select { |cell| !cell.solved? }.sort_by { |cell| cell.candidates.length }.first
+		set_neighbours_of(test_cell)
+		test_cell.candidates.each do |v|
+			parallel_grid = Grid.new(self.to_s)
+			parallel_grid.cells[index_of(test_cell)].guess_value(v)
+			begin
+				parallel_grid.solve
+			rescue #Exception => e
+				next
+			end
+			puts parallel_grid
+			steal_solution(parallel_grid) and return if parallel_grid.solved?
+		end
 	end
 
 

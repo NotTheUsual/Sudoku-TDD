@@ -35,6 +35,30 @@ describe Cell do
 		expect(empty_cell.candidates).to eq([6,7,8,9])
 	end
 
+	it "should know if it is invalid" do
+		empty_cell.neighbours = [2,3,4,5,6,7,8,9]
+		empty_cell.solve
+		expect(empty_cell).to be_valid
+		empty_cell.neighbours = [1,2,3,4,5,6,7,8,9]
+		expect(empty_cell).not_to be_valid
+	end
+
+	it "should know if it is valid" do
+		empty_cell.neighbours = [2,3,4,5,6,7,8,9]
+		empty_cell.solve
+		expect(empty_cell).to be_valid
+	end
+
+	it "should know if it is solvable" do
+		empty_cell.neighbours = [2,3,4,5,6,7,8,9]
+		expect(empty_cell).to be_solvable
+	end
+
+	it "should know it is unsolvable" do
+		empty_cell.neighbours = [1,2,3,4,5,6,7,8,9]
+		expect(empty_cell).not_to be_solvable
+	end
+
 	context "(when solving)" do
 		let(:cell)  { Cell.new(4) }
 
@@ -54,6 +78,11 @@ describe Cell do
 			expect(empty_cell.solve).to eq(nil)
 			expect(empty_cell.value).to eq(0)
 		end
+
+		it "should raise an error if it isn't possible to solve it" do
+			empty_cell.neighbours = [1,2,3,4,5,6,7,8,9]
+			expect{empty_cell.solve}.to raise_error
+		end
 	end
 
 	context "(when solving a hard sudoku)" do
@@ -61,7 +90,7 @@ describe Cell do
 			empty_cell = Cell.new(0)
 			empty_cell.neighbours = [3,4,5,6,7,8,9]
 			expect(empty_cell.value).to eq(0)
-			empty_cell.guess_value
+			empty_cell.guess_value(1)
 			expect(empty_cell.value).to eq(1)
 		end
 	end
