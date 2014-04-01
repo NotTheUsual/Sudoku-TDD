@@ -62,7 +62,7 @@ describe Grid do
 			expect(grid.neighbours_of(grid.cells[0])).to eq([1,2,3,4,5,7,8,9])
 		end
 
-		it "should set the neihgbours of a cell on initialization" do
+		it "should set the neighbours of a cell on initialization" do
 			expect(grid.cells[0].neighbours).to eq([1,2,3,4,5,7,8,9])
 		end
 	end
@@ -85,32 +85,32 @@ describe Grid do
 	end
 
 	context "(with really hard sudoku)" do
-		# it "should be able to solve a sudoku with one guess" do
-		# 	one_guess_puzzle = '034567890568129347790348056315274689426893715879651423640935078983712564057486930'
-		# 	grid = Grid.new(one_guess_puzzle)
-		# 	expect(grid).not_to be_solved
-		# 	grid.solve
-		# 	expect(grid).to be_solved
-		# 	# expect(grid).to be_valid
-		# end
-
-		# it "should be able to solve a sudoku with two guesses" do
-		# 	two_guess_puzzle = '050678090607129508890345067315267984426983715978451623560834079709512806080796050'
-		# 	grid = Grid.new(two_guess_puzzle)
-		# 	expect(grid).not_to be_solved
-		# 	grid.solve
-		# 	expect(grid).to be_solved
-		# 	# expect(grid).to be_valid
-		# end
-
-		it "should be able to solve a really hard sudoku" do
-			puzzle = '800000000003600000070090200050007000000045700000100030001000068008500010090000400'
-			grid = Grid.new(puzzle)
+		it "should be able to solve a sudoku with one guess" do
+			one_guess_puzzle = '034567890568129347790348056315274689426893715879651423640935078983712564057486930'
+			grid = Grid.new(one_guess_puzzle)
 			expect(grid).not_to be_solved
 			grid.solve
 			expect(grid).to be_solved
 			# expect(grid).to be_valid
 		end
+
+		it "should be able to solve a sudoku with two guesses" do
+			two_guess_puzzle = '050678090607129508890345067315267984426983715978451623560834079709512806080796050'
+			grid = Grid.new(two_guess_puzzle)
+			expect(grid).not_to be_solved
+			grid.solve
+			expect(grid).to be_solved
+			# expect(grid).to be_valid
+		end
+
+		# it "should be able to solve a really hard sudoku" do
+		# 	puzzle = '800000000003600000070090200050007000000045700000100030001000068008500010090000400'
+		# 	grid = Grid.new(puzzle)
+		# 	expect(grid).not_to be_solved
+		# 	grid.solve
+		# 	expect(grid).to be_solved
+		# 	# expect(grid).to be_valid
+		# end
 		
 		# it "should be able to solve an impossible sudoku" do
 		# 	puzzle = '060000300400700000000000080000008012500600000000000050082000700000500600000010000'
