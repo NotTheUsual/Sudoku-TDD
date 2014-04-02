@@ -77,9 +77,7 @@ class Grid
 	end
 
 	def fail_better
-		# test_cell = @cells.find { |cell| !cell.solved? }
-		test_cell = @cells.sort_by { |cell| cell.candidates.length }.find { |cell| !cell.solved? }
-		# test_cell = @cells.select { |cell| !cell.solved? }.sort_by { |cell| cell.candidates.length }.first
+		test_cell = find_next_test_cell
 		set_neighbours_of(test_cell)
 		test_cell.candidates.each do |v|
 			parallel_grid = Grid.new(self.to_s)
@@ -89,9 +87,15 @@ class Grid
 			rescue #Exception => e
 				next
 			end
-			puts parallel_grid
+			# puts parallel_grid
 			steal_solution(parallel_grid) and return if parallel_grid.solved?
 		end
+	end
+
+	def find_next_test_cell
+		# test_cell = @cells.find { |cell| !cell.solved? }
+		@cells.sort_by { |cell| cell.candidates.length }.find { |cell| !cell.solved? }
+		# test_cell = @cells.select { |cell| !cell.solved? }.sort_by { |cell| cell.candidates.length }.first
 	end
 
 
